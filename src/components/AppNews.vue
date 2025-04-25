@@ -1,18 +1,24 @@
 <template>
   <div class="card">
-    <h3>{{ news.title }}</h3>
-    <button class="btn" @click="toggleItem">
+    <h3>{{ item.title }}</h3>
+    <button class="btn" :class="!isOpen ? 'primary' : ''" @click="toggleItem">
       {{ !isOpen ? "Раскрыть" : "Свернуть" }}
     </button>
 
     <div v-if="isOpen">
       <p>Info...</p>
+      <br />
+      <hr />
+      <p>Читайте также</p>
+      <p v-for="subitem of news" :key="subitem.id">
+        <a href="https://gogol.com">{{ subitem.title }}</a>
+      </p>
       <button
         class="btn"
-        :class="!news.read ? 'primary' : ''"
+        :class="!item.read ? 'primary' : ''"
         @click="readTheArticle"
       >
-        {{ news.read ? "Прочитано" : "Прчитать" }}
+        {{ item.read ? "Прочитано" : "Прочитать" }}
       </button>
     </div>
   </div>
@@ -21,6 +27,7 @@
 
 <script>
 export default {
+  inject: ["title", "news"],
   emits: ["read", "item-opened"],
   data() {
     return {
@@ -37,8 +44,8 @@ export default {
     },
   },
   props: {
-    news: {
-      type: String, // Указываем тип свойства
+    item: {
+      type: Object, // Указываем тип свойства
       required: true, // Указали, что это свойство обязательно
     },
   },

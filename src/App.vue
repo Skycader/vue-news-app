@@ -10,7 +10,7 @@
     <AppNews
       v-for="item of news"
       :key="item"
-      :news="item"
+      :item="item"
       @item-opened="this.views++"
       @read="item.read = true"
     />
@@ -28,9 +28,9 @@ export default {
     return {
       views: 0,
       news: [
-        { title: "Windows 12 is out", read: false },
-        { title: "Linux Kernel 2.1 is out", read: false },
-        { title: "Trump has made Elon Musk his son", read: false },
+        { id: 1, title: "Windows 12 is out", read: false },
+        { id: 2, title: "Linux Kernel 2.1 is out", read: false },
+        { id: 3, title: "Trump has made Elon Musk his son", read: false },
       ],
     };
   },
@@ -38,6 +38,12 @@ export default {
     reads() {
       return this.news.reduce((total, item) => (total += item.read), 0);
     },
+  },
+  provide() {
+    return {
+      title: "Список всех новостей",
+      news: this.news,
+    };
   },
   components: {
     AppNews: AppNews,
